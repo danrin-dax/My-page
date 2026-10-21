@@ -201,6 +201,16 @@
     cursor: pointer;
   }
 
+  .next {
+    grid-column: 1;
+    max-width: 40em;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+  }
+  .next p { margin: 0 0 14px; }
+  .next .side { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 32px; margin: 0; }
+  .next .side dd { margin-bottom: 0; }
+
   .phone {
     grid-column: 2;
     grid-row: 1 / span 2;
@@ -332,6 +342,8 @@
     .epigraph blockquote { font-size: 1.12rem; }
     .phone { grid-column: 1; grid-row: auto; min-height: 0; border-radius: 26px; padding-bottom: 14px; }
     .hint { grid-column: 1; }
+    .next { order: 1; }
+    .next .side { grid-template-columns: minmax(0, 1fr); }
     .projects { margin-top: 56px; }
     .project { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "side" "body"; padding: 36px 0 40px; }
     .project .side { display: flex; flex-wrap: wrap; gap: 0 28px; margin: 0 0 10px; }
@@ -371,6 +383,14 @@
 
       <p class="hint">Drag a box over any words on the page and they’ll land on the phone as a note. That’s what the reader does with a real book. <button type="button" id="replay">Replay the demo</button></p>
 
+      <div class="next">
+        <p><strong>Next phase: the clip-on version.</strong> I’m building the reader into a small device that clips onto the top of a book like a reading light, so you can keep reading on paper without retyping anything. It captures text, tables, diagrams and photos, reads English and Spanish, and keeps your notes organized by book.</p>
+        <dl class="side">
+          <div><dt>Status</dt><dd>Working prototype. Now building the portable clip-on version.</dd></div>
+          <div><dt>Skills</dt><dd>Computer vision, OCR, Python, hardware prototyping</dd></div>
+        </dl>
+      </div>
+
       <aside class="phone" aria-labelledby="notes-title">
         <h2 id="notes-title">Notes</h2>
         <ol class="notes" id="notes" aria-live="polite"></ol>
@@ -379,22 +399,6 @@
     </section>
 
     <main class="projects">
-      <article class="project" id="reader">
-        <h2>Clip-on book reader</h2>
-        <dl class="side">
-          <div><dt>Status</dt><dd>Working prototype. Now building the portable clip-on version.</dd></div>
-          <div><dt>Skills</dt><dd>Computer vision, OCR, Python, hardware prototyping</dd></div>
-        </dl>
-        <div class="body">
-          <p class="lede">A small device that clips onto the top of a book like a reading light. Drag your finger across a passage and it shows up on your phone as a clean, searchable note, so you can keep reading on paper without retyping anything.</p>
-          <ul class="caps">
-            <li>Captures text, tables, diagrams and photos</li>
-            <li>Reads English and Spanish</li>
-            <li>Keeps your notes organized by book</li>
-          </ul>
-        </div>
-      </article>
-
       <article class="project" id="fcle">
         <h2>FCLE study app</h2>
         <dl class="side">
