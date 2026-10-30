@@ -71,8 +71,106 @@
 
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
-  .top { display: flex; justify-content: flex-end; padding: 22px 0 8px; }
-  .top a { font-weight: 600; color: var(--ink); }
+  /* ---------- top bar and tabs, like a GitHub repo ---------- */
+  .top { border-bottom: 1px solid var(--rule); }
+  .brandrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 0 6px;
+  }
+  .brand {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .ext { font-weight: 600; font-size: 0.95rem; }
+  .menu {
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .menu li { flex: none; }
+  .menu a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 10px 12px;
+    font-size: 0.95rem;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .menu a span { padding: 4px 8px; margin: -4px -8px; border-radius: 6px; }
+  .menu a:hover span { background: rgba(36, 80, 255, 0.08); color: var(--ink); }
+  .menu svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .menu a[aria-current="page"] { color: var(--ink); font-weight: 700; }
+  .menu a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    bottom: -1px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--sel);
+  }
+
+  /* ---------- page sections ---------- */
+  .section { margin-top: 36px; }
+  main { padding-bottom: 64px; }
+  [hidden] { display: none !important; }
+  .sec-title {
+    margin: 0 0 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .sub { margin: 28px 0 6px; font-size: 1.25rem; }
+  .sec-note { margin: 0 0 8px; color: var(--muted); max-width: 40em; }
+  .todo { background: var(--hl); color: #14213D; padding: 0 4px; border-radius: 2px; }
+
+  .timeline { list-style: none; margin: 18px 0 0; padding: 0; }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 4px 40px;
+    padding: 22px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .timeline li:last-child { border-bottom: 1px solid var(--rule); }
+  .timeline .when { color: var(--muted); font-size: 0.95rem; padding-top: 3px; }
+  .timeline h3 { margin: 0 0 4px; font-size: 1.15rem; }
+  .timeline p { margin: 0; max-width: 40em; }
+
+  .traits {
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .traits li {
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-top: 4px solid var(--hl);
+  }
+  .traits h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  .traits p { margin: 0; font-size: 0.97rem; color: var(--muted); }
 
   /* ---------- hero: a page you can select from ---------- */
   .desk {
@@ -258,7 +356,7 @@
   .empty { margin: 4px 6px; font-size: 0.9rem; color: var(--muted); }
 
   /* ---------- projects ---------- */
-  .projects { margin-top: 88px; }
+  .projects .project:first-of-type { margin-top: 12px; }
   .project {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 260px;
@@ -344,7 +442,11 @@
     .hint { grid-column: 1; }
     .next { order: 1; }
     .next .side { grid-template-columns: minmax(0, 1fr); }
-    .projects { margin-top: 56px; }
+    .section { margin-top: 24px; }
+    .menu { margin: 0 -6px; }
+    .menu a { padding: 10px 6px 12px; gap: 6px; font-size: 0.9rem; }
+    .timeline li { grid-template-columns: minmax(0, 1fr); }
+    .traits { grid-template-columns: minmax(0, 1fr); }
     .project { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "side" "body"; padding: 36px 0 40px; }
     .project .side { display: flex; flex-wrap: wrap; gap: 0 28px; margin: 0 0 10px; }
     .opts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -359,10 +461,21 @@
 <body>
   <div class="wrap">
     <header class="top">
-      <a href="https://github.com/danrin-dax">GitHub</a>
+      <div class="brandrow">
+        <a class="brand" href="#about">Daniel Rincon-Casiero</a>
+        <a class="ext" href="https://github.com/danrin-dax">GitHub</a>
+      </div>
+      <nav aria-label="Sections">
+        <ul class="menu">
+          <li><a href="#about"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.5" r="2.75"/><path d="M2.75 14c.6-2.7 2.7-4.25 5.25-4.25s4.65 1.55 5.25 4.25"/></svg><span>About</span></a></li>
+          <li><a href="#projects"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.75" y="2.25" width="12.5" height="11.5" rx="1.5"/><path d="M6 2.25v11.5M10 2.25v11.5"/></svg><span>Projects</span></a></li>
+          <li><a href="#experience"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.75" y="4.75" width="12.5" height="9" rx="1.5"/><path d="M5.75 4.75v-1.5a1 1 0 0 1 1-1h2.5a1 1 0 0 1 1 1v1.5M1.75 8.75h12.5"/></svg><span>Experience</span></a></li>
+          <li><a href="#highlights"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.75l1.9 3.95 4.35.6-3.15 3.05.75 4.3L8 11.6l-3.85 2.05.75-4.3L1.75 6.3l4.35-.6z"/></svg><span>Highlights</span></a></li>
+        </ul>
+      </nav>
     </header>
 
-    <section class="desk" aria-label="Introduction">
+    <section class="desk panel" id="about" aria-label="About">
       <div class="paper" id="paper">
         <svg class="clip" viewBox="0 0 84 30" aria-hidden="true">
           <rect x="4" y="2" width="76" height="20" rx="10" fill="#14213D"/>
@@ -398,7 +511,11 @@
       </aside>
     </section>
 
-    <main class="projects">
+    <main>
+    <section class="section panel projects" id="projects" aria-labelledby="projects-title">
+      <h2 class="sec-title" id="projects-title">Projects</h2>
+      <h3 class="sub">Working on now</h3>
+      <p class="sec-note">The book reader is the demo on the <a href="#about">About</a> tab. Here’s the other one.</p>
       <article class="project" id="fcle">
         <h2>FCLE study app</h2>
         <dl class="side">
@@ -421,6 +538,56 @@
           </div>
         </div>
       </article>
+
+      <h3 class="sub" id="past">Past projects</h3>
+      <ul class="timeline">
+        <li>
+          <div class="when"><span class="todo">[Year]</span></div>
+          <div>
+            <h3><span class="todo">[Project name]</span></h3>
+            <p><span class="todo">[One or two lines: what it was, what you did, and how it turned out.]</span></p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section panel" id="experience" aria-labelledby="experience-title">
+      <h2 class="sec-title" id="experience-title">Experience</h2>
+      <ol class="timeline">
+        <li>
+          <div class="when"><span class="todo">[Start – End]</span></div>
+          <div>
+            <h3><span class="todo">[Role], [Organization]</span></h3>
+            <p><span class="todo">[One or two lines on what you did there and what came of it.]</span></p>
+          </div>
+        </li>
+        <li>
+          <div class="when"><span class="todo">[Start – End]</span></div>
+          <div>
+            <h3><span class="todo">[Role], [Organization]</span></h3>
+            <p><span class="todo">[One or two lines on what you did there and what came of it.]</span></p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section panel" id="highlights" aria-labelledby="highlights-title">
+      <h2 class="sec-title" id="highlights-title">Highlights</h2>
+      <ul class="traits">
+        <li>
+          <h3>Data, AI and security</h3>
+          <p>Data Science and Analytics at FAU, with minors in Artificial Intelligence and Cybersecurity.</p>
+        </li>
+        <li>
+          <h3>Builds from experience</h3>
+          <p>Passed the Florida Civic Literacy Exam, then started building the study app around how I did it.</p>
+        </li>
+        <li>
+          <h3><span class="todo">[Something that sets you apart]</span></h3>
+          <p><span class="todo">[A language, a certification, an award, or a trait people notice.]</span></p>
+        </li>
+      </ul>
+    </section>
     </main>
 
     <footer>
@@ -607,8 +774,36 @@
   }
   document.getElementById('replay').addEventListener('click', demo);
 
+  // Tabs: show one section at a time, like the tabs on a GitHub repo
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.menu a'));
+  var demoDone = false;
   var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-  fontsReady.then(function () { setTimeout(demo, reduced ? 0 : 700); });
+  function show(id) {
+    if (!panels.some(function (el) { return el.id === id; })) id = 'about';
+    panels.forEach(function (el) { el.hidden = el.id !== id; });
+    tabs.forEach(function (a) {
+      if (a.getAttribute('href') === '#' + id) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+    if (id === 'about' && !demoDone) {
+      demoDone = true;
+      fontsReady.then(function () { setTimeout(demo, reduced ? 0 : 700); });
+    }
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var id = a.getAttribute('href').slice(1);
+    if (!panels.some(function (el) { return el.id === id; })) return;
+    e.preventDefault();
+    if (location.hash !== '#' + id) history.pushState(null, '', '#' + id);
+    show(id);
+    window.scrollTo(0, 0);
+  });
+  window.addEventListener('popstate', function () { show(location.hash.slice(1)); });
+  show(location.hash.slice(1));
+  window.scrollTo(0, 0);
 
   // Practice question
   var result = document.getElementById('quiz-result');
